@@ -1,0 +1,15 @@
+parameters:
+    # path from project root
+    swagger_bundle.swagger.file: swagger.yaml
+
+    # service classes
+    swagger_bundle.provider.swagger.class: ERP\SwaggerBundle\Provider\SwaggerProvider
+
+services:
+
+    swagger_bundle.provider.swagger:
+        class: %swagger_bundle.provider.swagger.class%
+        arguments:
+          - @kernel
+          - @jms_serializer
+          - %swagger_bundle.swagger.file%
