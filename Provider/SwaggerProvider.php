@@ -37,7 +37,7 @@ class SwaggerProvider
      * @param $swaggerFile
      */
     public function __construct(KernelInterface $kernel, SwaggerFactory $swaggerFactory, $swaggerFile) {
-        $swaggerFile = realpath($kernel->getRootDir() . $swaggerFile);
+        $swaggerFile = realpath($kernel->getRootDir() . '/' . $swaggerFile);
 
         $this->swaggerFactory = $swaggerFactory;
         $this->swaggerFile    = $swaggerFile;
