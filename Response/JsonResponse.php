@@ -7,6 +7,7 @@
  */
 namespace RantSports\Bundle\StatsBundle\Response;
 
+use JMS\Serializer\SerializerBuilder;
 use Symfony\Component\HttpFoundation\JsonResponse as BaseJsonResponse;
 
 /**
@@ -58,6 +59,18 @@ class JsonResponse extends BaseJsonResponse
         $this->resolveData();
 
         return $this;
+    }
+
+    /**
+     * Return JMS serializer
+     *
+     * @return \JMS\Serializer\Serializer
+     */
+    protected function getSerializer()
+    {
+        $serializerBuilder = new SerializerBuilder();
+
+        return $serializerBuilder->build();
     }
 
     /**
@@ -124,6 +137,8 @@ class JsonResponse extends BaseJsonResponse
     private function resolveData()
     {
         $data = array_merge($this->defaultData, $this->pristineData);
+        $data = $this->getSerializer()->serialize($data, 'json');
+
         $this->setData($data);
     }
 }
