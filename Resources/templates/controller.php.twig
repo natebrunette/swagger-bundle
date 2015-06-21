@@ -1,0 +1,46 @@
+<?php
+/**
+ * File {{ controller }}.php
+ *
+ * @author Swagger Bundle <epfremme@nerdery.com>
+*/
+namespace {{ namespace }}\Controller;
+
+{% block use_statements %}
+use ERP\SwaggerBundle\Response\JsonResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+{% endblock use_statements %}
+
+{% block class_definition %}
+class {{ controller }}Controller extends Controller
+{% endblock class_definition %}
+{
+    /**
+    * {{ action|captitalize }} Action
+    *
+    * @ApiDoc(
+    *  section="{{ controller|capitalize }}",
+{% if path_parameters %}
+    *  requirements={
+    *      {"name"="gameId", "dataType"="integer", "description"="Game ID", "requirement"="\d+"}
+    *  },
+{% endif %}
+{% if parameters %}
+    *  parameters={
+    *      {"name"="access_token", "dataType"="string", "required"=true, "description"="A valid client access token."}
+    *  }
+{% endif %}
+    * )
+    * @Route("{{ path }}", name="stats_v1_cbb_game", defaults={"_format"="json"}, requirements={"gameId"="\d+"})
+    * @Method({"{{ method }}"})
+    * @param Request $request
+    * @return JsonResponse
+    */
+    public function gameAction(Request $request)
+    {
+        return new JsonResponse([]);
+    }
+}
