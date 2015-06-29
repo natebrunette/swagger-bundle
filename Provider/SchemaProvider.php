@@ -49,6 +49,7 @@ class SchemaProvider extends UriRetriever
      */
     public function retrieve($name, $baseUri = null)
     {
+        $name   = str_replace('#/definitions/', '', $name);
         $schema = $this->swaggerProvider->getDefinition($name);
 
         return json_decode($this->serializer->serialize($schema, 'json'));
