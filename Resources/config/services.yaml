@@ -20,6 +20,6 @@ services:
           - %swagger_bundle.swagger_file%
 
     swagger_bundle.provider.schema:
-      class: %swagger_bundle.provider.schema.class%
+        class: %swagger_bundle.provider.schema.class%
         arguments:
           - @swagger_bundle.provider.swagger
