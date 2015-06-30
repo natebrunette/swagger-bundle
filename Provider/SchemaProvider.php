@@ -1,11 +1,9 @@
 <?php
 /**
- * Created by IntelliJ IDEA.
- * User: epfremme
- * Date: 6/29/15
- * Time: 2:36 AM
+ * File SchemaProvider.php
+ *
+ * @author Edward Pfremmer <epfremme@nerdery.com>
  */
-
 namespace ERP\SwaggerBundle\Provider;
 
 use ERP\Swagger\Listener\SerializationSubscriber;
@@ -13,6 +11,12 @@ use JMS\Serializer\EventDispatcher\EventDispatcher;
 use JMS\Serializer\SerializerBuilder;
 use JsonSchema\Uri\UriRetriever;
 
+/**
+ * Class SchemaProvider
+ *
+ * @package ERP\SwaggerBundle
+ * @subpackage Provider
+ */
 class SchemaProvider extends UriRetriever
 {
 
