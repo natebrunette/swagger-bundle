@@ -10,6 +10,10 @@ Add vcs repository to composer json:
         {
             "type": "git",
             "url": "https://git.nerderylabs.com/FI.swagger-bundle"
+        },
+        {
+            "type": "git",
+            "url": "https://git.nerderylabs.com/FI.swagger-php"
         }
     ]
     
