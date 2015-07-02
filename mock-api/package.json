@@ -1,0 +1,20 @@
+{
+  "name": "fi.api-mock",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "babel": "^5.5.6",
+    "babel-runtime": "^5.5.6",
+    "grunt": "^0.4.5",
+    "grunt-contrib-connect": "^0.10.1",
+    "minimist": "^1.1.1",
+    "swagger-mock-api": "^1.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT"
+}
