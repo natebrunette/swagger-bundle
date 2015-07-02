@@ -17,7 +17,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "Nerdery\\SwaggerBundle\\": ""
+      "Nerdery\\SwaggerBundle\\": "src/"
     }
   },
   "require": {
