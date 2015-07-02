@@ -57,8 +57,11 @@ class MockApiListener
         }
 
         $this->assertNodeExists();
+        $this->assertMockApiExists();
 
-        chdir($this->kernel->getRootDir() . '/../mock');
+        $bundleDir = $this->kernel->getBundle('SwaggerBundle')->getPath();
+
+        chdir($bundleDir . '/../../mock-api');
 
         $request  = $event->getRequest();
         $response = shell_exec(sprintf(
@@ -88,7 +91,22 @@ class MockApiListener
     private function assertNodeExists()
     {
         if (shell_exec(sprintf('%s --version & echo $?', self::NODE_BIN)) != 0) {
-            throw new \Exception("Node binary not found - did you forget to install node?");
+            throw new \Exception("Node binary not found! - did you forget to install node?");
+        }
+    }
+
+    /**
+     * Assert that the mock api packages have
+     * been installed
+     *
+     * @throws \Exception
+     */
+    private function assertMockApiExists()
+    {
+        $bundleDir = $this->kernel->getBundle('SwaggerBundle')->getPath();
+
+        if (!is_dir($bundleDir . '/mock-api/node_modules')) {
+            throw new \Exception("Mock API not installed! - run app/console swagger:install:mock-api");
         }
     }
 

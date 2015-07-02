@@ -40,9 +40,11 @@ class InstallMockApiCommand extends ContainerAwareCommand
         $this->input  = $input;
         $this->output = $output;
 
+        $bundleDir = $this->getContainer()->get('kernel')->getBundle('SwaggerBundle')->getPath();
+
         $output->writeln('<info>Changing to Mock API directory</info>');
 
-        chdir(__DIR__ . '/../../mock-api');
+        chdir($bundleDir . '/mock-api');
 
         $output->writeln('<info>Running NPM install...</info>');
 
