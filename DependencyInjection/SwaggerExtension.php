@@ -4,7 +4,7 @@
  *
  * @author Edward Pfremmer <epfremme@nerdery.com>
  */
-namespace ERP\SwaggerBundle\DependencyInjection;
+namespace Nerdery\SwaggerBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 /**
  * Class SwaggerExtension
  *
- * @package ERP\SwaggerBundle
+ * @package Nerdery\SwaggerBundle
  */
 class SwaggerExtension extends Extension
 {

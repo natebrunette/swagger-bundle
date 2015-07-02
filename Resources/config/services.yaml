@@ -3,9 +3,9 @@ parameters:
     swagger_bundle.swagger_file: Resources/docs/swagger.yaml
 
     # service classes
-    swagger_bunele.factory.swagger.class:  ERP\Swagger\Factory\SwaggerFactory
-    swagger_bundle.provider.swagger.class: ERP\SwaggerBundle\Provider\SwaggerProvider
-    swagger_bundle.provider.schema.class: ERP\SwaggerBundle\Provider\SchemaProvider
+    swagger_bunele.factory.swagger.class:  Nerdery\Swagger\Factory\SwaggerFactory
+    swagger_bundle.provider.swagger.class: Nerdery\SwaggerBundle\Provider\SwaggerProvider
+    swagger_bundle.provider.schema.class: Nerdery\SwaggerBundle\Provider\SchemaProvider
 
 services:
 

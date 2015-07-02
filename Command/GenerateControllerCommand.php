@@ -1,10 +1,10 @@
 <?php
 
-namespace ERP\SwaggerBundle\Command;
+namespace Nerdery\SwaggerBundle\Command;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use ERP\Swagger\Entity\Path;
-use ERP\Swagger\Entity\Swagger;
+use Nerdery\Swagger\Entity\Path;
+use Nerdery\Swagger\Entity\Swagger;
 use Sensio\Bundle\GeneratorBundle\Command\Validators;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
