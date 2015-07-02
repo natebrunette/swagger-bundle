@@ -140,7 +140,7 @@ class SwaggerContext extends MinkContext implements MinkAwareContext, SnippetAcc
     }
 
     /**
-     * Make a new guzzle request and store the response & history to be accessed
+     * Make a new request and store the response & history to be accessed
      * during future test assertions in the current scenario
      *
      * @When I request :path
