@@ -23,7 +23,7 @@
   "require": {
     "php": ">=5.5",
     "nerdery/swagger-php": "^0.2.0",
-    "symfony/symfony": "~2.7",
+    "symfony/symfony": ">=2.4",
     "sensio/distribution-bundle": "~4.0",
     "sensio/generator-bundle": "^2.5",
     "justinrainbow/json-schema": "~1.3"
