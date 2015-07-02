@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "87e2b95d325730ce888580feed111fbb",
+    "hash": "5e66a695be7a64517e244d6cfe937176",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -457,44 +457,6 @@
                 "parser"
             ],
             "time": "2014-09-09 13:34:57"
-        },
-        {
-            "name": "epfremmer/swagger",
-            "version": "v0.1.1",
-            "source": {
-                "type": "git",
-                "url": "git@github.com:epfremmer/swagger.git",
-                "reference": "2a3f30d33340c9b881c44225f2dca56c7cc2c227"
-            },
-            "require": {
-                "jms/di-extra-bundle": "~1.4",
-                "jms/security-extra-bundle": "~1.5",
-                "jms/serializer-bundle": "^1.0",
-                "php": ">=5.5",
-                "symfony/validator": "^2.7",
-                "symfony/yaml": "^2.7"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.1"
-            },
-            "type": "package",
-            "autoload": {
-                "psr-4": {
-                    "ERP\\Swagger\\": "src/",
-                    "ERP\\Swagger\\Tests\\": "tests/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Edward Pfremmer",
-                    "email": "epfremme@nerdery.com"
-                }
-            ],
-            "description": "Library for parsing swagger documentation into PHP entities for use in testing and code generation",
-            "time": "2015-06-29 08:02:48"
         },
         {
             "name": "jms/aop-bundle",
@@ -1013,6 +975,44 @@
                 "schema"
             ],
             "time": "2015-06-14 20:01:28"
+        },
+        {
+            "name": "nerdery/swagger-php",
+            "version": "v0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.nerderylabs.com/FI.swagger-php",
+                "reference": "3252f3c42533cb7416b7fd3832d98a5210ef91d1"
+            },
+            "require": {
+                "jms/di-extra-bundle": "~1.4",
+                "jms/security-extra-bundle": "~1.5",
+                "jms/serializer-bundle": "^1.0",
+                "php": ">=5.5",
+                "symfony/validator": "^2.7",
+                "symfony/yaml": "^2.7"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.1"
+            },
+            "type": "package",
+            "autoload": {
+                "psr-4": {
+                    "Nerdery\\Swagger\\": "src/",
+                    "Nerdery\\Swagger\\Tests\\": "tests/"
+                }
+            },
+            "license": [
+                "Nerdery"
+            ],
+            "authors": [
+                {
+                    "name": "Edward Pfremmer",
+                    "email": "epfremme@nerdery.com"
+                }
+            ],
+            "description": "Library for parsing swagger documentation into PHP entities for use in testing and code generation",
+            "time": "2015-07-02 20:47:14"
         },
         {
             "name": "phpcollection/phpcollection",
