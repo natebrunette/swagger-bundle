@@ -31,9 +31,15 @@ class MockApiListener
     private $kernel;
 
     /**
-     * @param KernelInterface $kernel
+     * @var bool
      */
-    public function __construct(KernelInterface $kernel)
+    private $active;
+
+    /**
+     * @param KernelInterface $kernel
+     * @param bool $active
+     */
+    public function __construct(KernelInterface $kernel, $active = false)
     {
         $this->kernel = $kernel;
     }
@@ -45,6 +51,7 @@ class MockApiListener
     {
         if ($this->kernel->getEnvironment() === 'prod'
             || !$event->getRequest()->headers->has('x-mock-api')
+            || !$this->isActive()
         ) {
             return; // do nothing
         }
@@ -83,5 +90,15 @@ class MockApiListener
         if (shell_exec(sprintf('%s --version & echo $?', self::NODE_BIN)) != 0) {
             throw new \Exception("Node binary not found - did you forget to install node?");
         }
+    }
+
+    /**
+     * Test if listener is active
+     *
+     * @return bool
+     */
+    private function isActive()
+    {
+        return (bool) $this->active;
     }
 }
