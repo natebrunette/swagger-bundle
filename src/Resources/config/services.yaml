@@ -5,7 +5,10 @@ parameters:
     # service classes
     swagger_bunele.factory.swagger.class:  Nerdery\Swagger\Factory\SwaggerFactory
     swagger_bundle.provider.swagger.class: Nerdery\SwaggerBundle\Provider\SwaggerProvider
-    swagger_bundle.provider.schema.class: Nerdery\SwaggerBundle\Provider\SchemaProvider
+    swagger_bundle.provider.schema.class:  Nerdery\SwaggerBundle\Provider\SchemaProvider
+
+    # swagger mock api toggle
+    swagger_bundle.mock_api: true
 
 services:
 
@@ -23,3 +26,11 @@ services:
         class: %swagger_bundle.provider.schema.class%
         arguments:
           - @swagger_bundle.provider.swagger
+
+    kernel.listener.mock_api_listener:
+        class: SwaggerBundle\EventListener\MockApiListener
+        arguments:
+          - @kernel
+          - %swagger_bundle.mock_api%
+        tags:
+          - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
