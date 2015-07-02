@@ -4,9 +4,9 @@
  *
  * @author Edward Pfremmer <epfremme@nerdery.com>
  */
-namespace ERP\SwaggerBundle\Provider;
+namespace Nerdery\SwaggerBundle\Provider;
 
-use ERP\Swagger\Listener\SerializationSubscriber;
+use Nerdery\Swagger\Listener\SerializationSubscriber;
 use JMS\Serializer\EventDispatcher\EventDispatcher;
 use JMS\Serializer\SerializerBuilder;
 use JsonSchema\Uri\UriRetriever;
@@ -14,7 +14,7 @@ use JsonSchema\Uri\UriRetriever;
 /**
  * Class SchemaProvider
  *
- * @package ERP\SwaggerBundle
+ * @package Nerdery\SwaggerBundle
  * @subpackage Provider
  */
 class SchemaProvider extends UriRetriever

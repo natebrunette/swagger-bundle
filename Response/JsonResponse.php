@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse as BaseJsonResponse;
 /**
  * Class JsonResponse
  *
- * @package ERP\SwaggerBundle
+ * @package Nerdery\SwaggerBundle
  * @subpackage Response
  */
 class JsonResponse extends BaseJsonResponse

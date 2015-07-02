@@ -1,6 +1,6 @@
 <?php
 
-namespace ERP\SwaggerBundle\DependencyInjection;
+namespace Nerdery\SwaggerBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
