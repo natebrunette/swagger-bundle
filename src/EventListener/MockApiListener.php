@@ -36,10 +36,15 @@ class MockApiListener
     private $active;
 
     /**
+     * @var string
+     */
+    private $swaggerFile;
+
+    /**
      * @param KernelInterface $kernel
      * @param bool $active
      */
-    public function __construct(KernelInterface $kernel, $active = false)
+    public function __construct(KernelInterface $kernel, $swaggerFile, $active = false)
     {
         $this->kernel = $kernel;
     }
@@ -61,7 +66,7 @@ class MockApiListener
 
         $bundleDir = $this->kernel->getBundle('SwaggerBundle')->getPath();
 
-        chdir($bundleDir . '/../../mock-api');
+        chdir($bundleDir . $this->swaggerFile);
 
         $request  = $event->getRequest();
         $response = shell_exec(sprintf(

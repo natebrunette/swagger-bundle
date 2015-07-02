@@ -31,6 +31,7 @@ services:
         class: SwaggerBundle\EventListener\MockApiListener
         arguments:
           - @kernel
+          - %swagger_bundle.swagger_file%
           - %swagger_bundle.mock_api%
         tags:
           - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
