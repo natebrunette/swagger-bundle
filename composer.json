@@ -22,7 +22,7 @@
   },
   "require": {
     "php": ">=5.5",
-    "nerdery/swagger": "^0.2.0",
+    "nerdery/swagger-php": "^0.2.0",
     "symfony/symfony": "~2.7",
     "sensio/distribution-bundle": "~4.0",
     "sensio/generator-bundle": "^2.5",
