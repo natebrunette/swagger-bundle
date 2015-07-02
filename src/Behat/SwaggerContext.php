@@ -227,30 +227,26 @@ class SwaggerContext extends MinkContext implements MinkAwareContext, SnippetAcc
         $data = $this->getJsonContent(false);
 
         if (is_string($key)) {
+            $this->theResponseJsonShouldContain($key);
+
             $data = is_array($data) ? $data[$key] : $data->{$key};
         }
 
-        $this->theJsonDataShouldBeValid($data);
+        $this->assertJsonIsValid($data);
     }
 
     /**
-     * @Then the json data should be valid
-     * @Then the response json should be valid
-     * @Then the json key :key data should be valid
-     * @Then the response json key :key should be valid
-     *
-     * @param null|string $key
+     * Validate the
+     * @param \stdClass $data
      * @throws \Exception
      */
-    public function theJsonDataShouldBeValid($key = JsonResponse::KEY_DATA)
+    public function assertJsonIsValid($data)
     {
-        $validator = new Validator();
-        $data = $this->getJsonContent(false);
-
-        if ($key) {
-            $this->theResponseJsonShouldContain($key);
-            $data = $data->{$key};
+        if (!$this->schema) {
+            throw new \Exception("Missing json schema - did you forget to specify one in the scenario?");
         }
+
+        $validator = new Validator();
 
         $this->resolver->resolve($this->schema);
         $validator->check($data, $this->schema);
