@@ -219,8 +219,8 @@ class SwaggerContext extends MinkContext implements MinkAwareContext, SnippetAcc
     }
 
     /**
-     * @Then The json response data should be valid
-     * @Then The json response key :key should be valid
+     * @Then the json response data should be valid
+     * @Then the json response key :key should be valid
      *
      * @param null|string $key
      */
