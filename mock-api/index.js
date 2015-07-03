@@ -21,11 +21,8 @@ var req = {
 var res = {
     end: function() {},
     write: console.log,
-    setHeader: function(){}
+    setHeader: function() {}
 };
 
-// wrap server in set timeout to give the
-// filesystem time to load the API doc
-var ignore = setTimeout(function() {
-    server(req, res, function() {});
-}, 500);
+// handle mock request
+server(req, res, function() {});
