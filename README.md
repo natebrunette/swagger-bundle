@@ -25,10 +25,10 @@ Note: This bundle should only be used in dev mode and be included as a dev only 
 
 # Usage
 
-There are 2 main bundle parameters that can be set to turn on/off all or parts of the swagger-bundle:
+There are 2 main bundle parameters to you can override in your parameters.yml:
 
-1. `swagger_bundle.swagger_file` default: Resources/docs/swagger.yaml - override this to specify a different swagger file
-2. `swagger_bundle.mock_api` default: true - turn off to deactivate the mock API listener
+1. `swagger_bundle.swagger_file` default: Resources/docs/swagger.yaml - specify swagger file
+2. `swagger_bundle.mock_api` default: true - turn on/off to deactivate the mock API listener
 
 More deatils on each below...
 
