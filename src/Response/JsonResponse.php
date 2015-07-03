@@ -5,7 +5,7 @@
  * @author Douglas Linsmeyer <douglas.linsmeyer@nerdery.com>
  * @author Edward Pfremmer <epfremme@nerdery.com>
  */
-namespace NerderyBundle\Response;
+namespace Nerdery\SwaggerBundle\Response;
 
 use JMS\Serializer\SerializerBuilder;
 use Symfony\Component\HttpFoundation\JsonResponse as BaseJsonResponse;
@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse as BaseJsonResponse;
 /**
  * Class JsonResponse
  *
- * @package Nerdery\SwaggerBundle
+ * @package    Nerdery\SwaggerBundle
  * @subpackage Response
  */
 class JsonResponse extends BaseJsonResponse

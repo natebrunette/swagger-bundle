@@ -1,11 +1,21 @@
 <?php
-
+/**
+ * InstallMockApiCommand.php
+ *
+ * @author Edward Pfremmer <epfremme@nerdery.com>
+ */
 namespace Nerdery\SwaggerBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Class InstallMockApiCommand
+ *
+ * @package    SwaggerBundle\Nerdery
+ * @subpackage Command
+ */
 class InstallMockApiCommand extends ContainerAwareCommand
 {
 
@@ -44,7 +54,7 @@ class InstallMockApiCommand extends ContainerAwareCommand
 
         $output->writeln('<info>Changing to Mock API directory</info>');
 
-        chdir($bundleDir . '/mock-api');
+        chdir($bundleDir . '/../mock-api');
 
         $output->writeln('<info>Running NPM install...</info>');
 

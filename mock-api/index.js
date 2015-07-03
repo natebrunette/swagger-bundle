@@ -4,7 +4,7 @@ var path = require('path');
 var argv = require('minimist')(process.argv.slice(2));
 var mockApi = require('swagger-mock-api');
 
-var swaggerFile = path.join(__dirname, '/../docs/swagger.json');
+var swaggerFile = path.join(argv.file);
 
 // mock api service
 var server = mockApi({

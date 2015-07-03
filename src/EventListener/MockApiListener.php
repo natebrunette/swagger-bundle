@@ -4,9 +4,8 @@
  *
  * @author Edward Pfremmer <epfremme@nerdery.com>
  */
-namespace AppBundle\EventListener;
+namespace Nerdery\SwaggerBundle\EventListener;
 
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -17,8 +16,8 @@ use Symfony\Component\HttpKernel\KernelInterface;
  * Listen for mock API requests and return mock API response data
  * based on the swagger documentation
  *
- * @package SwaggerBundle\EventListener
- * @author  Edward Pfremmer <epfremme@nerdery.com>
+ * @package    SwaggerBundle\Nerdery
+ * @subpackage EventListener
  */
 class MockApiListener
 {
@@ -47,6 +46,9 @@ class MockApiListener
     public function __construct(KernelInterface $kernel, $swaggerFile, $active = false)
     {
         $this->kernel = $kernel;
+        $this->active = $active;
+
+        $this->swaggerFile = $swaggerFile;
     }
 
     /**
@@ -64,16 +66,17 @@ class MockApiListener
         $this->assertNodeExists();
         $this->assertMockApiExists();
 
-        $bundleDir = $this->kernel->getBundle('SwaggerBundle')->getPath();
+        $bundle = $this->kernel->getBundle('SwaggerBundle');
 
-        chdir($bundleDir . $this->swaggerFile);
+        chdir($bundle->getPath() . '/../mock-api');
 
         $request  = $event->getRequest();
         $response = shell_exec(sprintf(
-            '%s index.js --url %s --method %s',
+            '%s index.js --url %s --method %s --file %s',
             self::NODE_BIN,
             $request->getPathInfo(),
-            $request->getMethod()
+            $request->getMethod(),
+            realpath($this->kernel->getRootDir() . $this->swaggerFile)
         ));
 
         $response = explode(PHP_EOL, trim($response));
@@ -108,9 +111,9 @@ class MockApiListener
      */
     private function assertMockApiExists()
     {
-        $bundleDir = $this->kernel->getBundle('SwaggerBundle')->getPath();
+        $bundle = $this->kernel->getBundle('SwaggerBundle');
 
-        if (!is_dir($bundleDir . '/mock-api/node_modules')) {
+        if (!is_dir($bundle->getPath() . '/../mock-api/node_modules')) {
             throw new \Exception("Mock API not installed! - run app/console swagger:install:mock-api");
         }
     }

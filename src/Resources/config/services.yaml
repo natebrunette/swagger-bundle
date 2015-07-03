@@ -2,13 +2,14 @@ parameters:
     # path from project root
     swagger_bundle.swagger_file: Resources/docs/swagger.yaml
 
-    # service classes
-    swagger_bunele.factory.swagger.class:  Nerdery\Swagger\Factory\SwaggerFactory
-    swagger_bundle.provider.swagger.class: Nerdery\SwaggerBundle\Provider\SwaggerProvider
-    swagger_bundle.provider.schema.class:  Nerdery\SwaggerBundle\Provider\SchemaProvider
-
     # swagger mock api toggle
     swagger_bundle.mock_api: true
+
+    # service classes
+    swagger_bunele.factory.swagger.class:   Nerdery\Swagger\Factory\SwaggerFactory
+    swagger_bundle.provider.swagger.class:  Nerdery\SwaggerBundle\Provider\SwaggerProvider
+    swagger_bundle.provider.schema.class:   Nerdery\SwaggerBundle\Provider\SchemaProvider
+    swagger_bundle.listener.mock_api.class: Nerdery\SwaggerBundle\EventListener\MockApiListener
 
 services:
 
@@ -28,7 +29,7 @@ services:
           - @swagger_bundle.provider.swagger
 
     kernel.listener.mock_api_listener:
-        class: SwaggerBundle\EventListener\MockApiListener
+        class: %swagger_bundle.listener.mock_api.class%
         arguments:
           - @kernel
           - %swagger_bundle.swagger_file%
