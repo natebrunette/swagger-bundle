@@ -48,7 +48,7 @@ Sample Behat configuration using the SwaggerContext for validating json schemas
                 paths:
                     - %paths.base%/src/AppBundle/Tests/Features/
                 contexts:
-                    - SwaggerBundle\Behat\SwaggerContext: ~
+                    - Nerdery\SwaggerBundle\Behat\SwaggerContext: ~
         extensions:
             Behat\Symfony2Extension: ~
             Behat\MinkExtension:
