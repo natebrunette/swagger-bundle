@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 /**
  * Class SwaggerProvider
  *
- * @package Nerdery\SwaggerBundle
+ * @package     Nerdery\SwaggerBundle
  * @subpackage Provider
  */
 class SwaggerProvider

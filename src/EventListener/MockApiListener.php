@@ -16,8 +16,8 @@ use Symfony\Component\HttpKernel\KernelInterface;
  * Listen for mock API requests and return mock API response data
  * based on the swagger documentation
  *
- * @package SwaggerBundle\EventListener
- * @author  Edward Pfremmer <epfremme@nerdery.com>
+ * @package    SwaggerBundle\Nerdery
+ * @subpackage EventListener
  */
 class MockApiListener
 {

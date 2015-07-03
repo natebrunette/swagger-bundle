@@ -1,11 +1,21 @@
 <?php
-
+/**
+ * InstallMockApiCommand.php
+ *
+ * @author Edward Pfremmer <epfremme@nerdery.com>
+ */
 namespace Nerdery\SwaggerBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Class InstallMockApiCommand
+ *
+ * @package    SwaggerBundle\Nerdery
+ * @subpackage Command
+ */
 class InstallMockApiCommand extends ContainerAwareCommand
 {
 

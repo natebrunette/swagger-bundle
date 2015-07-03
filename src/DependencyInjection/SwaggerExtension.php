@@ -14,7 +14,8 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 /**
  * Class SwaggerExtension
  *
- * @package Nerdery\SwaggerBundle
+ * @package    Nerdery\SwaggerBundle
+ * @subpackage DependencyInjection
  */
 class SwaggerExtension extends Extension
 {

@@ -14,7 +14,7 @@ use JsonSchema\Uri\UriRetriever;
 /**
  * Class SchemaProvider
  *
- * @package Nerdery\SwaggerBundle
+ * @package    Nerdery\SwaggerBundle
  * @subpackage Provider
  */
 class SchemaProvider extends UriRetriever

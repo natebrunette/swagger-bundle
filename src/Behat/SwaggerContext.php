@@ -2,8 +2,7 @@
 /**
  * SwaggerContext.php
  *
- * @package    AppBundle
- * @subpackage Tests
+ * @author Edward Pfremmer <epfremme@nerdery.com>
  */
 namespace Nerdery\SwaggerBundle\Behat;
 
@@ -25,7 +24,8 @@ use PHPUnit_Framework_Assert;
  *
  * Defines contexts to test API responses
  *
- * @author Edward Pfremmer <epfremme@nerdery.com>
+ * @package    Nerdery\SwaggerBundle
+ * @subpackage Behat
  */
 class SwaggerContext extends MinkContext implements MinkAwareContext, SnippetAcceptingContext
 {
