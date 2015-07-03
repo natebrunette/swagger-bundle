@@ -58,7 +58,7 @@ class InstallMockApiCommand extends ContainerAwareCommand
 
         $output->writeln('<info>Running NPM install...</info>');
 
-        $result = shell_exec('npm install');
+        $result = shell_exec('npm update');
 
         if (exec('echo $!') != 0) {
             $output->writeln('<error>Installation failed!!!</error>');
