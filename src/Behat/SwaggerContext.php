@@ -1,11 +1,11 @@
 <?php
 /**
- * FeatureContext.php
+ * SwaggerContext.php
  *
  * @package    AppBundle
  * @subpackage Tests
  */
-namespace AppBundle\Tests\Features\Context;
+namespace Nerdery\SwaggerBundle\Behat;
 
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
@@ -21,7 +21,9 @@ use NerderyBundle\Response\JsonResponse;
 use PHPUnit_Framework_Assert;
 
 /**
- * Defines contexts to test App responses
+ * Class SwaggerContext
+ *
+ * Defines contexts to test API responses
  *
  * @author Edward Pfremmer <epfremme@nerdery.com>
  */
@@ -236,7 +238,8 @@ class SwaggerContext extends MinkContext implements MinkAwareContext, SnippetAcc
     }
 
     /**
-     * Validate the
+     * Validate the json data again target schema
+     *
      * @param \stdClass $data
      * @throws \Exception
      */
