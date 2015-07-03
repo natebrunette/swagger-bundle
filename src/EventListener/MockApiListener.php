@@ -4,7 +4,7 @@
  *
  * @author Edward Pfremmer <epfremme@nerdery.com>
  */
-namespace AppBundle\EventListener;
+namespace Nerdery\SwaggerBundle\EventListener;
 
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpFoundation\Response;
@@ -47,6 +47,9 @@ class MockApiListener
     public function __construct(KernelInterface $kernel, $swaggerFile, $active = false)
     {
         $this->kernel = $kernel;
+        $this->active = $active;
+
+        $this->swaggerFile = $swaggerFile;
     }
 
     /**
@@ -64,16 +67,17 @@ class MockApiListener
         $this->assertNodeExists();
         $this->assertMockApiExists();
 
-        $bundleDir = $this->kernel->getBundle('SwaggerBundle')->getPath();
+        $bundle = $this->kernel->getBundle('SwaggerBundle');
 
-        chdir($bundleDir . $this->swaggerFile);
+        chdir($bundle->getPath() . '/../mock-api');
 
         $request  = $event->getRequest();
         $response = shell_exec(sprintf(
-            '%s index.js --url %s --method %s',
+            '%s index.js --url %s --method %s --file %s',
             self::NODE_BIN,
             $request->getPathInfo(),
-            $request->getMethod()
+            $request->getMethod(),
+            realpath($this->kernel->getRootDir() . $this->swaggerFile)
         ));
 
         $response = explode(PHP_EOL, trim($response));
@@ -108,9 +112,9 @@ class MockApiListener
      */
     private function assertMockApiExists()
     {
-        $bundleDir = $this->kernel->getBundle('SwaggerBundle')->getPath();
+        $bundle = $this->kernel->getBundle('SwaggerBundle');
 
-        if (!is_dir($bundleDir . '/mock-api/node_modules')) {
+        if (!is_dir($bundle->getPath() . '/../mock-api/node_modules')) {
             throw new \Exception("Mock API not installed! - run app/console swagger:install:mock-api");
         }
     }
