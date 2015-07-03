@@ -44,7 +44,7 @@ class InstallMockApiCommand extends ContainerAwareCommand
 
         $output->writeln('<info>Changing to Mock API directory</info>');
 
-        chdir($bundleDir . '/mock-api');
+        chdir($bundleDir . '/../mock-api');
 
         $output->writeln('<info>Running NPM install...</info>');
 
