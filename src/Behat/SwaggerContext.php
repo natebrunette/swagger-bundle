@@ -16,7 +16,7 @@ use Behat\Symfony2Extension\Context\KernelDictionary;
 use Nerdery\SwaggerBundle\Provider\SchemaProvider;
 use JsonSchema\RefResolver;
 use JsonSchema\Validator;
-use NerderyBundle\Response\JsonResponse;
+use Nerdery\SwaggerBundle\Response\JsonResponse;
 use PHPUnit_Framework_Assert;
 
 /**
