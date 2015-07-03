@@ -2,13 +2,13 @@ parameters:
     # path from project root
     swagger_bundle.swagger_file: Resources/docs/swagger.yaml
 
+    # swagger mock api toggle
+    swagger_bundle.mock_api: true
+
     # service classes
     swagger_bunele.factory.swagger.class:  Nerdery\Swagger\Factory\SwaggerFactory
     swagger_bundle.provider.swagger.class: Nerdery\SwaggerBundle\Provider\SwaggerProvider
     swagger_bundle.provider.schema.class:  Nerdery\SwaggerBundle\Provider\SchemaProvider
-
-    # swagger mock api toggle
-    swagger_bundle.mock_api: true
 
 services:
 
