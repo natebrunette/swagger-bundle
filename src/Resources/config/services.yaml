@@ -29,7 +29,7 @@ services:
           - @swagger_bundle.provider.swagger
 
     kernel.listener.mock_api_listener:
-        class: SwaggerBundle\EventListener\MockApiListener
+        class: %swagger_bundle.listener.mock_api.class%
         arguments:
           - @kernel
           - %swagger_bundle.swagger_file%
