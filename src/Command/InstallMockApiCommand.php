@@ -18,6 +18,11 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class InstallMockApiCommand extends ContainerAwareCommand
 {
+    // node binaries
+    const NODE_BIN  = 'tools/node/bin/node';
+    const NPM_BIN   = 'tools/node/bin/npm';
+    const GRUNT_BIN = 'tools/node/bin/grunt';
+    const BOWER_BIN = 'tools/node/bin/bower';
 
     /**
      * Cli Input
@@ -52,20 +57,39 @@ class InstallMockApiCommand extends ContainerAwareCommand
 
         $bundleDir = $this->getContainer()->get('kernel')->getBundle('SwaggerBundle')->getPath();
 
-        $output->writeln('<info>Changing to Mock API directory</info>');
-
         chdir($bundleDir . '/../mock-api');
+
+        if (shell_exec(sprintf('%s --version > /dev/null 2>&1; echo $?', self::NODE_BIN)) != 0) {
+            $this->installNode();
+        }
 
         $output->writeln('<info>Running NPM install...</info>');
 
-        $result = shell_exec('npm update');
-
-        if (exec('echo $!') != 0) {
+        if (shell_exec(sprintf('%s update; echo $?', self::NPM_BIN)) != 0) {
             $output->writeln('<error>Installation failed!!!</error>');
-            $output->write($result);
             die(1);
         }
 
         $output->writeln('<info>Installation Complete!</info>');
+    }
+
+    /**
+     * Install a standalone version of the node executable
+     * used to install mock API packages
+     *
+     * @return void
+     */
+    private function installNode()
+    {
+        $installScript = stristr(PHP_OS, 'WIN')
+            ? 'node-standalone-install.cmd'
+            : 'node-standalone-install.sh'
+        ;
+
+        $this->output->writeln('<info>Installing Node Standalone...</info>');
+
+        shell_exec(sprintf('cd tools && ./%s', $installScript));
+
+        $this->output->writeln('<info>Node Standalone Installed!</info>');
     }
 }

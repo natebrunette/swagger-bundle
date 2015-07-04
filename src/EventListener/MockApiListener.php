@@ -6,6 +6,7 @@
  */
 namespace Nerdery\SwaggerBundle\EventListener;
 
+use Nerdery\SwaggerBundle\Command\InstallMockApiCommand;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -22,7 +23,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 class MockApiListener
 {
     // node binary
-    const NODE_BIN = 'node';
+    const NODE_BIN = InstallMockApiCommand::NODE_BIN;
 
     /**
      * @var KernelInterface
@@ -63,12 +64,12 @@ class MockApiListener
             return; // do nothing
         }
 
-        $this->assertNodeExists();
-        $this->assertMockApiExists();
-
         $bundle = $this->kernel->getBundle('SwaggerBundle');
 
         chdir($bundle->getPath() . '/../mock-api');
+
+        $this->assertNodeExists();
+        $this->assertMockApiExists();
 
         $request  = $event->getRequest();
         $response = shell_exec(sprintf(
@@ -98,7 +99,7 @@ class MockApiListener
      */
     private function assertNodeExists()
     {
-        if (shell_exec(sprintf('%s --version & echo $?', self::NODE_BIN)) != 0) {
+        if (shell_exec(sprintf('%s --version > /dev/null 2>&1; echo $?', self::NODE_BIN)) != 0) {
             throw new \Exception("Node binary not found! - did you forget to install node?");
         }
     }
