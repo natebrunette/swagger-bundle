@@ -64,12 +64,12 @@ class MockApiListener
             return; // do nothing
         }
 
-        $this->assertNodeExists();
-        $this->assertMockApiExists();
-
         $bundle = $this->kernel->getBundle('SwaggerBundle');
 
         chdir($bundle->getPath() . '/../mock-api');
+
+        $this->assertNodeExists();
+        $this->assertMockApiExists();
 
         $request  = $event->getRequest();
         $response = shell_exec(sprintf(
