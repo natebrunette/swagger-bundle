@@ -88,7 +88,7 @@ class InstallMockApiCommand extends ContainerAwareCommand
 
         $this->output->writeln('<info>Installing Node Standalone...</info>');
 
-        shell_exec(sprintf('cd tools && ./%s', $installScript));
+        shell_exec(sprintf('cd tools && ./%s && chmod 755 node/bin/*', $installScript));
 
         $this->output->writeln('<info>Node Standalone Installed!</info>');
     }
