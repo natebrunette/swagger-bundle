@@ -10,6 +10,7 @@ use Nerdery\SwaggerBundle\Command\InstallMockApiCommand;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Process\Process;
 
 /**
  * Class MockApiListener
@@ -53,7 +54,13 @@ class MockApiListener
     }
 
     /**
+     * Respond with mock API data on kernel requests containing
+     * the "x-mock-api" request header
+     *
+     * note: This functionality will be disabled entirely in prod mode
+     *
      * @param GetResponseEvent $event
+     * @throws \Exception
      */
     public function onKernelRequest(GetResponseEvent $event)
     {
@@ -64,21 +71,27 @@ class MockApiListener
             return; // do nothing
         }
 
-        $bundle = $this->kernel->getBundle('SwaggerBundle');
-
-        chdir($bundle->getPath() . '/../mock-api');
-
         $this->assertNodeExists();
         $this->assertMockApiExists();
 
-        $request  = $event->getRequest();
-        $response = shell_exec(sprintf(
+        $request = $event->getRequest();
+
+        $process = new Process(sprintf(
             '%s index.js --url %s --method %s --file %s',
             self::NODE_BIN,
             $request->getPathInfo(),
             $request->getMethod(),
             realpath($this->kernel->getRootDir() . $this->swaggerFile)
         ));
+
+        $process->setWorkingDirectory($this->getMockApiDir())
+                ->run();
+
+        if (!$process->isSuccessful()) {
+            throw new \Exception("Unable to get mock API data from service");
+        }
+
+        $response = $process->getOutput();
 
         $response = explode(PHP_EOL, trim($response));
         $response = end($response);
@@ -99,7 +112,12 @@ class MockApiListener
      */
     private function assertNodeExists()
     {
-        if (shell_exec(sprintf('%s --version > /dev/null 2>&1; echo $?', self::NODE_BIN)) != 0) {
+        $process = new Process(sprintf('%s --version > /dev/null 2>&1', self::NODE_BIN));
+
+        $process->setWorkingDirectory($this->getMockApiDir())
+                ->run();
+
+        if (!$process->isSuccessful()) {
             throw new \Exception("Node binary not found! - did you forget to install node?");
         }
     }
@@ -127,5 +145,17 @@ class MockApiListener
     private function isActive()
     {
         return (bool) $this->active;
+    }
+
+    /**
+     * Return the mock API directory
+     *
+     * @return string
+     */
+    private function getMockApiDir()
+    {
+        $bundle = $this->kernel->getBundle('SwaggerBundle');
+
+        return $bundle->getPath() . '/../mock-api';
     }
 }
