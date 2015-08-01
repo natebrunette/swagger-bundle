@@ -9,16 +9,18 @@ Add vcs repository to composer json:
     "repositories": [
         {
             "type": "git",
-            "url": "https://git.nerderylabs.com/FI.swagger-bundle"
+            "url": "https://git.nerderylabs.com/SIERRA.SwaggerBundle"
         },
         {
             "type": "git",
-            "url": "https://git.nerderylabs.com/FI.swagger-php"
+            "url": "https://git.nerderylabs.com/SIERRA.SwaggerPHP"
         }
     ]
     
 * Require package `composer require nerdery/swagger-bundle`
 * Install packages `composer install`
+
+This will require username & password authentication during the composer install/update processUdap
 
 Note: This bundle should only be used in dev mode and be included as a dev only dependency. The purpose of these 
       resources are to assist the creation of an API symfony application during development 
