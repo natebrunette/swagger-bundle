@@ -9,6 +9,7 @@ namespace Nerdery\SwaggerBundle\Command;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Process\Process;
 
 /**
  * Class InstallMockApiCommand
@@ -55,19 +56,25 @@ class InstallMockApiCommand extends ContainerAwareCommand
         $this->input  = $input;
         $this->output = $output;
 
-        $bundleDir = $this->getContainer()->get('kernel')->getBundle('SwaggerBundle')->getPath();
+        $process = new Process(sprintf('%s --version > /dev/null 2>&1', self::NODE_BIN));
 
-        chdir($bundleDir . '/../mock-api');
+        $process->setWorkingDirectory($this->getMockApiDir())
+                ->run();
 
-        if (shell_exec(sprintf('%s --version > /dev/null 2>&1; echo $?', self::NODE_BIN)) != 0) {
+        if (!$process->isSuccessful()) {
             $this->installNode();
         }
 
         $output->writeln('<info>Running NPM install...</info>');
 
-        if (shell_exec(sprintf('%s update; echo $?', self::NPM_BIN)) != 0) {
+        $process = new Process(sprintf('%s update; echo $?', self::NPM_BIN));
+
+        $process->setWorkingDirectory($this->getMockApiDir())
+                ->run();
+
+        if (!$process->isSuccessful()) {
             $output->writeln('<error>Installation failed!!!</error>');
-            die(1);
+            die($process->getExitCode());
         }
 
         $output->writeln('<info>Installation Complete!</info>');
@@ -88,8 +95,23 @@ class InstallMockApiCommand extends ContainerAwareCommand
 
         $this->output->writeln('<info>Installing Node Standalone...</info>');
 
-        shell_exec(sprintf('cd tools && ./%s && chmod 755 node/bin/*', $installScript));
+        $process = new Process(sprintf('cd tools && ./%s && chmod 755 node/bin/*', $installScript));
+
+        $process->setWorkingDirectory($this->getMockApiDir())
+                ->run();
 
         $this->output->writeln('<info>Node Standalone Installed!</info>');
+    }
+
+    /**
+     * Return the mock API directory
+     *
+     * @return string
+     */
+    private function getMockApiDir()
+    {
+        $bundle = $this->getContainer()->get('kernel')->getBundle('SwaggerBundle');
+
+        return $bundle->getPath() . '/../mock-api';
     }
 }
