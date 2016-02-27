@@ -1,5 +1,5 @@
 {
-  "name": "nerdery/swagger-bundle",
+  "name": "epfremme/swagger-bundle",
   "type": "symfony-bundle",
   "description": "Symfony 2 bundle for leveraging swagger library test/mock API contracts",
   "license": "Nerdery",
