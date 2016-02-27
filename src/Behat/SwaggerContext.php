@@ -7,7 +7,6 @@
 namespace Nerdery\SwaggerBundle\Behat;
 
 use Behat\Behat\Context\SnippetAcceptingContext;
-use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Driver\BrowserKitDriver;
 use Behat\MinkExtension\Context\MinkAwareContext;
@@ -18,6 +17,7 @@ use JsonSchema\RefResolver;
 use JsonSchema\Validator;
 use Nerdery\SwaggerBundle\Response\JsonResponse;
 use PHPUnit_Framework_Assert;
+use Tebru\Realtype\Realtype;
 
 /**
  * Class SwaggerContext
@@ -138,7 +138,12 @@ class SwaggerContext extends MinkContext implements MinkAwareContext, SnippetAcc
      */
     public function iHaveThePayload(TableNode $payload)
     {
-        $this->payload = $payload->getRowsHash();
+        $rows = $payload->getRowsHash();
+        foreach ($rows as $key => $value) {
+            $rows[$key] = Realtype::get($value);
+        }
+
+        $this->payload = $rows;
     }
 
     /**
