@@ -12,11 +12,14 @@ use Behat\Mink\Driver\BrowserKitDriver;
 use Behat\MinkExtension\Context\MinkAwareContext;
 use Behat\MinkExtension\Context\MinkContext;
 use Behat\Symfony2Extension\Context\KernelDictionary;
-use Nerdery\SwaggerBundle\Provider\SchemaProvider;
+use JsonSchema\Uri\UriResolver;
+use JsonSchema\Uri\UriRetriever;
 use JsonSchema\RefResolver;
 use JsonSchema\Validator;
+use LogicException;
 use Nerdery\SwaggerBundle\Response\JsonResponse;
 use PHPUnit_Framework_Assert;
+use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Tebru\Realtype\Realtype;
 
 /**
@@ -62,11 +65,6 @@ class SwaggerContext extends MinkContext implements MinkAwareContext, SnippetAcc
     protected $schema;
 
     /**
-     * @var SchemaProvider
-     */
-    protected $schemaProvider;
-
-    /**
      * @var RefResolver
      */
     protected $resolver;
@@ -92,8 +90,7 @@ class SwaggerContext extends MinkContext implements MinkAwareContext, SnippetAcc
             self::ENV
         ));
 
-        $this->schemaProvider = $this->getContainer()->get('swagger_bundle.provider.schema');
-        $this->resolver       = new RefResolver($this->schemaProvider);
+        $this->resolver = new RefResolver(new UriRetriever(), new UriResolver());
     }
 
     /**
@@ -169,10 +166,29 @@ class SwaggerContext extends MinkContext implements MinkAwareContext, SnippetAcc
      * @When I am using the :schema schema
      *
      * @param string $schema - Entity/Model or full schema '$ref' name
+     * @throws InvalidArgumentException
+     * @throws LogicException
      */
     public function iUseTheSchema($schema)
     {
-        $this->schema = $this->schemaProvider->retrieve($schema);
+        $file = sprintf(
+            '%s/%s',
+            $this->getKernel()->getRootDir(),
+            $this->getContainer()->getParameter('swagger_bundle.swagger_file')
+        );
+        $fullSchema = $this->resolver->resolve(sprintf('file://%s', $file));
+
+        if (!property_exists($fullSchema, 'definitions')) {
+            throw new LogicException('Schema is missing definitions');
+        }
+
+        $definitions = $fullSchema->definitions;
+
+        if (!property_exists($definitions, $schema)) {
+            throw new LogicException('Schema "%s" not found in definitions', $schema);
+        }
+
+        $this->schema = $definitions->$schema;
     }
 
     /**
@@ -256,7 +272,6 @@ class SwaggerContext extends MinkContext implements MinkAwareContext, SnippetAcc
 
         $validator = new Validator();
 
-        $this->resolver->resolve($this->schema);
         $validator->check($data, $this->schema);
 
         if (!$validator->isValid()) {

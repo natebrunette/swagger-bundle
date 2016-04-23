@@ -6,7 +6,7 @@ parameters:
     swagger_bundle.mock_api: true
 
     # service classes
-    swagger_bunele.factory.swagger.class:   Nerdery\Swagger\Factory\SwaggerFactory
+    swagger_bundle.factory.swagger.class:   Nerdery\Swagger\Factory\SwaggerFactory
     swagger_bundle.provider.swagger.class:  Nerdery\SwaggerBundle\Provider\SwaggerProvider
     swagger_bundle.provider.schema.class:   Nerdery\SwaggerBundle\Provider\SchemaProvider
     swagger_bundle.listener.mock_api.class: Nerdery\SwaggerBundle\EventListener\MockApiListener
@@ -14,24 +14,24 @@ parameters:
 services:
 
     swagger_bundle.factory.swagger:
-        class: %swagger_bunele.factory.swagger.class%
+        class: %swagger_bundle.factory.swagger.class%
 
     swagger_bundle.provider.swagger:
         class: %swagger_bundle.provider.swagger.class%
         arguments:
-          - @kernel
-          - @swagger_bundle.factory.swagger
+          - "@kernel"
+          - "@swagger_bundle.factory.swagger"
           - %swagger_bundle.swagger_file%
 
     swagger_bundle.provider.schema:
         class: %swagger_bundle.provider.schema.class%
         arguments:
-          - @swagger_bundle.provider.swagger
+          - "@swagger_bundle.provider.swagger"
 
     kernel.listener.mock_api_listener:
         class: %swagger_bundle.listener.mock_api.class%
         arguments:
-          - @kernel
+          - "@kernel"
           - %swagger_bundle.swagger_file%
           - %swagger_bundle.mock_api%
         tags:
