@@ -19,6 +19,7 @@ use JsonSchema\Validator;
 use LogicException;
 use Nerdery\SwaggerBundle\Response\JsonResponse;
 use PHPUnit_Framework_Assert;
+use stdClass;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Tebru\Realtype\Realtype;
 
@@ -171,18 +172,8 @@ class SwaggerContext extends MinkContext implements MinkAwareContext, SnippetAcc
      */
     public function iUseTheSchema($schema)
     {
-        $file = sprintf(
-            '%s/%s',
-            $this->getKernel()->getRootDir(),
-            $this->getContainer()->getParameter('swagger_bundle.swagger_file')
-        );
-        $fullSchema = $this->resolver->resolve(sprintf('file://%s', $file));
-
-        if (!property_exists($fullSchema, 'definitions')) {
-            throw new LogicException('Schema is missing definitions');
-        }
-
-        $definitions = $fullSchema->definitions;
+        $fullSchema = $this->getFullSchema();
+        $definitions = $this->getPropertyFromSchema($fullSchema, 'definitions');
 
         if (!property_exists($definitions, $schema)) {
             throw new LogicException('Schema "%s" not found in definitions', $schema);
@@ -198,12 +189,31 @@ class SwaggerContext extends MinkContext implements MinkAwareContext, SnippetAcc
      *
      * @param string $path
      * @param string $operation
-     * @param int $response
+     * @param int|string $response
+     * @throws LogicException
+     * @throws InvalidArgumentException
      */
     public function iTestTheSwaggerPath($path, $operation = 'get', $response = 200)
     {
-        $swaggerProvider = $this->getContainer()->get('swagger_bundle.provider.swagger');
-        $this->schema = $swaggerProvider->getResponse($path, $operation, $response);
+        $fullSchema = $this->getFullSchema();
+        $paths = $this->getPropertyFromSchema($fullSchema, 'paths');
+        $pathObject = $this->getPropertyFromSchema($paths, $path);
+        $operationObject = $this->getPropertyFromSchema($pathObject, $operation);
+        $responsesObjects = $this->getPropertyFromSchema($operationObject, 'responses');
+
+        if (!property_exists($responsesObjects, $response)) {
+            $response = 'default';
+        }
+
+        $responseObject = $this->getPropertyFromSchema($responsesObjects, $response);
+
+        if (!property_exists($responseObject, 'schema')) {
+            $this->schema = new stdClass();
+
+            return;
+        }
+
+        $this->schema = $responseObject->schema;
 
         $this->iRequestWithMethod($path, $operation);
     }
@@ -259,9 +269,22 @@ class SwaggerContext extends MinkContext implements MinkAwareContext, SnippetAcc
     }
 
     /**
+     * Test the response against the schema
+     *
+     * @Then the json response should be valid
+     *
+     * @throws \Exception
+     */
+    public function theJsonResponseShouldBeValid()
+    {
+        $data = $this->getJsonContent(false);
+        $this->assertJsonIsValid($data);
+    }
+
+    /**
      * Validate the json data again target schema
      *
-     * @param \stdClass $data
+     * @param stdClass $data
      * @throws \Exception
      */
     public function assertJsonIsValid($data)
@@ -284,5 +307,40 @@ class SwaggerContext extends MinkContext implements MinkAwareContext, SnippetAcc
 
             throw new \Exception(implode(PHP_EOL, $errors));
         }
+    }
+
+    /**
+     * Load full schema from configured file
+     *
+     * @return stdClass
+     * @throws LogicException
+     * @throws InvalidArgumentException
+     */
+    private function getFullSchema()
+    {
+        $file = sprintf(
+            '%s/%s',
+            $this->getKernel()->getRootDir(),
+            $this->getContainer()->getParameter('swagger_bundle.swagger_file')
+        );
+
+        return $this->resolver->resolve(sprintf('file://%s', $file));
+    }
+
+    /**
+     * Get schema paths
+     *
+     * @param stdClass $fullSchema
+     * @param string $property
+     * @return stdClass
+     * @throws LogicException
+     */
+    private function getPropertyFromSchema(stdClass $fullSchema, $property)
+    {
+        if (!property_exists($fullSchema, $property)) {
+            throw new LogicException(sprintf('Schema is missing "%s"', $property));
+        }
+
+        return $fullSchema->$property;
     }
 }
