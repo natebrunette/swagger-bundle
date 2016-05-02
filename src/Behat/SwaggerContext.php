@@ -54,6 +54,13 @@ class SwaggerContext extends MinkContext implements MinkAwareContext, SnippetAcc
     protected $payload;
 
     /**
+     * Request server params
+     *
+     * @var array
+     */
+    protected $server;
+
+    /**
      * Decoded Json Data
      * @var mixed
      */
@@ -145,6 +152,27 @@ class SwaggerContext extends MinkContext implements MinkAwareContext, SnippetAcc
     }
 
     /**
+     * Store headers to be used for scenario requests
+     *
+     * Format:
+     * | key | value |
+     *
+     * @Given I have the request headers:
+     * @param TableNode $payload
+     */
+    public function iHaveTheHeaders(TableNode $payload)
+    {
+        $headers = [];
+        $rows = $payload->getRowsHash();
+        foreach ($rows as $key => $value) {
+            $header = 'HTTP_' . strtoupper($key);
+            $headers[$header] = Realtype::get($value);
+        }
+
+        $this->server = $headers;
+    }
+
+    /**
      * Make a new request and store the response & history to be accessed
      * during future test assertions in the current scenario
      *
@@ -157,9 +185,10 @@ class SwaggerContext extends MinkContext implements MinkAwareContext, SnippetAcc
     public function iRequestWithMethod($path, $method = self::GET)
     {
         $method = strtoupper($method);
-        $data   = $this->payload ?: [];
+        $data = $this->payload ?: [];
+        $server = $this->server ?: [];
 
-        $this->getDriver()->getClient()->request($method, $path, $data);
+        $this->getDriver()->getClient()->request($method, $path, $data, [], $server);
     }
 
     /**
